@@ -56,7 +56,7 @@ sub get_slave_lag {
          }
 
 
-         $lag = sprintf("%.0f", $status->{appliedLatency});
+         $lag = sprintf("%.0f", $status->{relativeLatency});
 
          # we return oktorun and the lag
          return $lag;
