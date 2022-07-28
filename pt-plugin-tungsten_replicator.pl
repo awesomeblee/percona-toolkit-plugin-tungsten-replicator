@@ -47,7 +47,10 @@ sub get_slave_lag {
 
          }
 
-         my $status = decode_json $json;
+         ## In Continuent Tungsten v6, trepctl status was modified to return an array of objects
+         ## Thus even if the service is explicitly specified, the json still returns an array of 1 object.
+         my $decoded = decode_json $json;
+         my $status = pop $decoded;
 
 
          if ( $status->{state} ne "ONLINE" ) {
@@ -55,7 +58,7 @@ sub get_slave_lag {
             return;
          }
 
-
+	 # Changed from appliedLatency to relativeLatency
          $lag = sprintf("%.0f", $status->{relativeLatency});
 
          # we return oktorun and the lag
